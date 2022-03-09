@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Wrapper for the git archive command, whose syntax I can't remember and is too long to type out anyway. Useful for submitting Coding Assignments.
+
+git_path=$(find -name .git -type d)
+
+if [[ -z "$git_path" ]]; then
+	echo "This script must be executed from within a git repo."
+	exit 1
+fi
+
+dirname=${PWD##*/}
+git archive --prefix ${dirname}/ HEAD -o ../${dirname}.zip

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# HEIMO
+# Needs a heimo.conf file in the same directory, which should contain the username and password on separate lines.
+# Dependencies: cowsay, lolcat
+
+user=$(head --lines 1 heimo.conf)
+pass=$(tail --lines 1 heimo.conf)
+
+heimo=$(curl -s -d "auth_user=$user" -d "auth_pass=$pass" -d "accept=Anmelden" -d "redirurl=http%3A%2F%2F10.10.0.2%2Fcaptiveportal%2Fcp_logon_done.html" http://10.10.0.251:8002/index.php?zone=cp_htl)
+result=$heimo
+
+if [[ $result != "You are connected." ]]; then
+ 	result="DANKE HEIMO"
+fi
+
+echo $result | cowsay | lolcat
